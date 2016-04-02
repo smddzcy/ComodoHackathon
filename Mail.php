@@ -2,14 +2,12 @@
 
 class Mail
 {
-    private $subject;
-    private $content;
+    private $data;
     private $type;                // Only for training
 
-    public function __construct($subject, $content, $type = null)
+    public function __construct($data, $type = null)
     {
-        $this->subject = $subject;
-        $this->content = $content;
+        $this->data = $data;
         $this->type = $type;
     }
 
@@ -18,7 +16,7 @@ class Mail
      */
     public function getSubject()
     {
-        return $this->subject;
+        return array_key_exists("subject", $this->data) ? $this->data["subject"] : null;
     }
 
     /**
@@ -26,7 +24,7 @@ class Mail
      */
     public function setSubject($subject)
     {
-        $this->subject = $subject;
+        $this->data["subject"] = $subject;
     }
 
     /**
@@ -34,7 +32,7 @@ class Mail
      */
     public function getContent()
     {
-        return $this->content;
+        return array_key_exists("content", $this->data) ? $this->data["content"] : null;
     }
 
     /**
@@ -42,7 +40,55 @@ class Mail
      */
     public function setContent($content)
     {
-        $this->content = $content;
+        $this->data["content"] = $content;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDate()
+    {
+        return array_key_exists("date", $this->data) ? $this->data["date"] : null;
+    }
+
+    /**
+     * @param string $content
+     */
+    public function setDate($content)
+    {
+        $this->data["date"] = $content;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFrom()
+    {
+        return array_key_exists("from", $this->data) ? $this->data["from"] : null;
+    }
+
+    /**
+     * @param string $content
+     */
+    public function setFrom($content)
+    {
+        $this->data["from"] = $content;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTo()
+    {
+        return array_key_exists("to", $this->data) ? $this->data["to"] : null;
+    }
+
+    /**
+     * @param string $content
+     */
+    public function setTo($content)
+    {
+        $this->data["to"] = $content;
     }
 
     /**

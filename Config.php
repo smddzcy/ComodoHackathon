@@ -4,6 +4,9 @@ require_once('vendor/autoload.php');
 
 final class Config
 {
+    /**
+     * Mail types for clustering in Bayesian algorithm
+     */
     const MAIL_TYPES = [
         "SPAM", "PROMOTION", "SOCIAL", "FRIENDS/FAMILY"
     ];
@@ -18,7 +21,7 @@ final class Config
     const DB_NAME = "comodo";
     const DB_MAILS_TABLENAME = "mails";
     const DB_TRAININGDATA_TABLENAME = "training_data";
-    
+
     public static function load($className)
     {
         include_once "./{$className}.php";

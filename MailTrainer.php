@@ -29,7 +29,7 @@ class MailTrainer
     {
         foreach ($a as $el) {
             $type = strtoupper($el->getType());
-            if (!array_key_exists($type, Config::MAIL_TYPES)) throw new Exception($type . " mail type doesn't exist.");
+            if (array_search($type, Config::MAIL_TYPES) === false) throw new Exception($type . " mail type doesn't exist.");
             $this->trainingSet->addDocument(
                 $type,
                 new TokensDocument(StringOperator::tokenize($el->getSubject() . " " . $el->getContent()))

@@ -32,7 +32,6 @@ class MailClassifier
             Config::MAIL_TYPES,
             new TokensDocument(StringOperator::tokenize($mail->getSubject() . " " . $mail->getContent()))
         );
-
     }
 
     /**
