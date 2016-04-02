@@ -8,7 +8,7 @@
  */
 class StringOperator
 {
-    public static function tokenize(String $s){
+    public static function tokenize($s){
         $s = preg_replace("#[^a-zA-Z0-9' ]#si",null,$s);
         $keys = [];
         foreach(preg_split('/\s+/',$s) as $k){
