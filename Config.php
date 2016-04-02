@@ -2,13 +2,6 @@
 
 require_once('vendor/autoload.php');
 
-use NlpTools\Tokenizers\WhitespaceTokenizer;
-use NlpTools\Models\FeatureBasedNB;
-use NlpTools\Documents\TrainingSet;
-use NlpTools\Documents\TokensDocument;
-use NlpTools\FeatureFactories\DataAsFeatures;
-use NlpTools\Classifiers\MultinomialNBClassifier;
-
 final class Config
 {
     const MAIL_TYPES = [
@@ -23,8 +16,9 @@ final class Config
     const DB_USER = "root";
     const DB_PASS = "1233211";
     const DB_NAME = "comodo";
-    const DB_MAILSTABLENAME = "mails";
-
+    const DB_MAILS_TABLENAME = "mails";
+    const DB_TRAININGDATA_TABLENAME = "training_data";
+    
     public static function load($className)
     {
         include_once "./{$className}.php";

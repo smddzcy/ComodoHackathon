@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: smddzcy
- * Date: 02/04/16
- * Time: 19:01
- */
 class StringOperator
 {
     public static function tokenize($s){
@@ -13,12 +7,9 @@ class StringOperator
         $keys = [];
         foreach(preg_split('/\s+/',$s) as $k){
             $k = trim($k);
-            if(!empty($k)) $keys[] = new Keyword($k);
+            if(!empty($k)) $keys[] = $k;
         }
         return $keys;
     }
 
 }
-
-
-print_r(StringOperator::tokenize("Hey wow, dude what's up ???!!"));
