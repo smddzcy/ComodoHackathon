@@ -28,7 +28,7 @@ class MailClassifier
      */
     public function classifySingle(Mail $mail)
     {
-        
+
         // It's a spam if it's sent from future, or earlier than a week (a week is considered as a maximum mail refresh rate for a system)
         if (!is_null($mail->getDate()) &&
             (($diff = strtotime($mail->getDate()) - strtotime('now')) > 0 || $diff < -Config::DAY * 7)
@@ -41,6 +41,8 @@ class MailClassifier
             $domain = strrchr($mail->getFrom(), "@");
             if ($domain !== false) {
                 $domain = substr($domain, 1);
+                $availabilityData = new CurlRequest("http://www.checkdomain.com/cgi-bin/checkdomain.pl?domain=" . $domain);
+                if (!preg_match("#registered#si", $availabilityData)) return "SPAM";
                 $domain = strtoupper(substr($domain, 0, strripos($domain, ".")));
                 if (array_search($domain, Config::SOCIAL_DOMAINS) !== false && array_search("SOCIAL", Config::MAIL_TYPES) !== false) return "SOCIAL";
             }
