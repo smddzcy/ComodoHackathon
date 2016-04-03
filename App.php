@@ -17,7 +17,7 @@ foreach (array_diff(scandir($directory), array('..', '.')) as $dir) {
     }
 }
 */
-
+/*
 $data = ["Natural Hair Regrowth Tablets!
  
 Thousands purchased around the world every day.
@@ -45,5 +45,9 @@ Available in almost all countries '])
 ]);
 
 var_dump($mails);
+*/
 
-// Yay %100 success rate !!!!
+$db = new DBHandler();
+file_put_contents("test",json_encode($db->getTrainingData()["model"]));
+
+
