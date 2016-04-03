@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Email Classifier</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker3.min.css"
+          rel="stylesheet"/>
+
+    <link rel="stylesheet" href="css/styles.css"/>
+    <style type="text/css">
+        .valign {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .overflowedText {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            max-width: 400px;
+        }
+
+        .subject {
+            max-width: 250px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-fixed-top navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">Email Classifier</a>
+</nav>
+<div class="container-fluid" id="main">
+    <div class="row row-offcanvas row-offcanvas-left">
+
+        <div class="col-md-12 main">
+            <p>&nbsp;</p>
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="card card-inverse card-success">
+                        <div class="card-block bg-success">
+                            <div class="rotate">
+                                <i class="fa fa-user fa-5x"></i>
+                            </div>
+                            <h6 class="text-uppercase">Personal</h6>
+                            <h1 class="display-1" id="personalCount">134</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="card card-inverse card-danger">
+                        <div class="card-block bg-danger">
+                            <div class="rotate">
+                                <i class="fa fa-list fa-4x"></i>
+                            </div>
+                            <h6 class="text-uppercase">Spam</h6>
+                            <h1 class="display-1" id="spamCount">267</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="card card-inverse card-info">
+                        <div class="card-block bg-info">
+                            <div class="rotate">
+                                <i class="fa fa-twitter fa-5x"></i>
+                            </div>
+                            <h6 class="text-uppercase">Social</h6>
+                            <h1 class="display-1" id="socialCount">180</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="card card-inverse card-warning">
+                        <div class="card-block bg-warning">
+                            <div class="rotate">
+                                <i class="fa fa-share fa-5x"></i>
+                            </div>
+                            <h6 class="text-uppercase">Promotion</h6>
+                            <h1 class="display-1" id="promotionCount">36</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/row-->
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <hr>
+            <div class="container">
+                <div class="row valign">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <h1 class="display-5" style="font-weight: 400">
+                            Total Mails Processed:
+                        </h1>
+                    </div>
+                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 col-md-offset-1">
+                        <h1 class="display-5" id="totalMailCount">
+                            617
+                        </h1>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="container">
+                <div class="row valign">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <h1 class="display-5" style="font-weight: 400">
+                            Success Rate:
+                        </h1>
+                    </div>
+                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 col-md-offset-1">
+                        <h1 class="display-5" id="successRate">
+                            <!-- good enough for hackathon -->
+                            52%
+                        </h1>
+                    </div>
+                </div>
+            </div>
+            <hr style="padding-bottom: 10px">
+            <p>&nbsp;</p>
+            <div class="container">
+                <p class="lead">
+                    Intelligent, machine learning powered e-mail classifier with more than <b>50%</b> <i
+                        class="fa fa-level-up"></i> success! It'll put your emails into <b>any number of categories you
+                    want</b>, and it gets better as you use it.
+                </p>
+            </div>
+            <p>&nbsp;</p>
+            <hr style="padding-bottom: 10px">
+            <p>&nbsp;</p>
+            <div class="container">
+                <div class="page-header text-xs-center" style="padding-bottom: 20px">
+                    <h1>Classify an e-mail</h1>
+                </div>
+                <p>&nbsp;</p>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="container">
+                        <div class="input-group">
+								<span class="input-group-btn">
+									<button class="btn btn-info" type="button">From:</button>
+								</span>
+                            <input type="email" class="form-control" name="from" id="from">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="margin-bottom: 10px">
+                    <div class="container">
+                        <div class="input-group">
+								<span class="input-group-btn">
+									<button class="btn btn-info" type="button">Date:</button>
+								</span>
+                            <input type="text" class="form-control" name="date" id="date">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom: 10px;">
+                    <div class="container">
+                        <div class="input-group">
+								<span class="input-group-btn">
+									<button class="btn btn-info" type="button">Subject:</button>
+								</span>
+                            <input type="text" class="form-control" name="subject" id="subject">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+
+                        <div class="input-group">
+								<span class="input-group-btn">
+									<button class="btn btn-info" type="button" style="height: 100px">Content:</button>
+								</span>
+                            <input type="text" class="form-control" name="content" id="content" style="height: 100px">
+                        </div>
+
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="margin-bottom: 10px">
+                        <button class="btn btn-info" type="button" style="height: 100px; width: 100%" id="sendForm">
+                            Send
+                        </button>
+                    </div>
+                </div>
+                <p>&nbsp;</p>
+
+            </div>
+            <hr/>
+            <p>&nbsp;</p>
+            <div class="container" id="mailListContainer" style="display: none">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead class="thead-inverse">
+                            <tr>
+                                <th>#</th>
+                                <th>Subject</th>
+                                <th>Content</th>
+                                <th>Category</th>
+                            </tr>
+                            </thead>
+                            <tbody id="mailList">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--/row-->
+
+
+        </div><!--/row-->
+
+    </div>
+    <!--/main col-->
+</div>
+
+<!--/.container-->
+<footer class="container-fluid">
+    <p class="text-right small">©1970 UNIX Team</p>
+</footer>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js"></script>
+<script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/locales/bootstrap-datepicker.en-GB.min.js"></script>
+
+
+<script src="js/scripts.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#date').datepicker({
+            format: "mm/dd/yyyy"
+        });
+
+        var totalMailCount = $("#totalMailCount");
+        var successRate = $("#successRate");
+
+        var mailList = $("#mailList");
+
+        var total = 0;
+        $.ajax({
+            url: 'http://localhost/ComodoHackathon/AjaxHandler.php',
+            type: 'POST',
+            dataType: 'json',
+            data: {function: 'getCounts'},
+            async: false,
+            success: function (ret) {
+                for (var i in ret) {
+                    total += parseInt(ret[i]);
+                    $("#" + i + "Count").html(ret[i]);
+                }
+                totalMailCount.html(total);
+            }
+        });
+
+        $("#sendForm").on('click', function () {
+            $("#mailListContainer").show();
+            var from = $("#from").val();
+            var date = $("#date").val();
+            var subject = $("#subject").val();
+            var content = $("#content").val();
+            $.ajax({
+                url: 'http://localhost/ComodoHackathon/AjaxHandler.php',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    function: 'classify',
+                    data: {
+                        "from": from,
+                        "date": date,
+                        "subject": subject,
+                        "content": content
+                    }
+                },
+                async: false,
+                success: function (ret) {
+                    mailList.append('<tr>' +
+                            '<td>' + ret["id"] + '</td>' +
+                            '<td class="overflowedText subject">' + subject + '</td>' +
+                            '<td class="overflowedText">' + content + '</td>' +
+                            '<td>' + ret["type"] + '</td>' +
+                            '</tr>');
+                }
+            });
+
+        });
+    });
+</script>
+</body>
+</html>

@@ -28,22 +28,29 @@ class DBHandler
      *
      * @param string $subj Mail subject
      * @param string $content Mail content
-     * @return bool True on success, false on failure
+     * @param string $type Mail type
+     * @return array|bool Mail ID on success, false on failure
      */
-    public function addMail($subj, $content)
+    public function addMail($subj, $content, $type = null)
     {
-        $query = self::$db->prepare("INSERT INTO {$this->mailsTableName} (subject,content) VALUES (:subj,:content)");
-        return $query->execute([
+        $query = self::$db->prepare("INSERT INTO {$this->mailsTableName} (subject,content,type) VALUES (:subj,:content,:type)");
+        $query->execute([
             ":subj" => $subj,
+            ":content" => $content,
+            ":type" => $type
+        ]);
+        $query = self::$db->prepare("SELECT id FROM {$this->mailsTableName} WHERE content = :content");
+        $query->execute([
             ":content" => $content
         ]);
+        return $query->fetch()["id"];
     }
 
     /**
      * Get mails from database
      *
      * @param int $count -1 (or any negative number) => Get all mails from database
-     * @return bool True on success, false on failure
+     * @return bool|array Mails on success, false on failure
      */
     public function getMail($count = -1)
     {
@@ -61,19 +68,17 @@ class DBHandler
      */
     public function getTrainingData()
     {
-        $query = self::$db->prepare("SELECT * FROM {$this->trainingDataTableName}");
-        $query->execute();
-        $data = $query->fetchAll();
-        if (count($data) > 0 && array_key_exists('model', $data[0]) && array_key_exists('features', $data[0])) {
-            return [
-                "model" => unserialize($data[0]['model']),
-                "features" => unserialize($data[0]['features'])
-            ];
-        }
+        $modelData = file_exists("/Users/smddzcy/Desktop/www/ComodoHackathon/training_db/model") ? unserialize(preg_replace_callback('!s:(\d+):"(.*?)";!', function ($match) {
+            return ($match[1] == strlen($match[2])) ? $match[0] : 's:' . strlen($match[2]) . ':"' . $match[2] . '";';
+        }, file_get_contents("/Users/smddzcy/Desktop/www/ComodoHackathon/training_db/model"))) : new FeatureBasedNB();
+        $featuresData = file_exists("/Users/smddzcy/Desktop/www/ComodoHackathon/training_db/features") ? unserialize(preg_replace_callback('!s:(\d+):"(.*?)";!', function ($match) {
+            return ($match[1] == strlen($match[2])) ? $match[0] : 's:' . strlen($match[2]) . ':"' . $match[2] . '";';
+        }, file_get_contents("/Users/smddzcy/Desktop/www/ComodoHackathon/training_db/features"))) : new DataAsFeatures();
         return [
-            "model" => new FeatureBasedNB(),
-            "features" => new DataAsFeatures()
+            "model" => $modelData,
+            "features" => $featuresData,
         ];
+
     }
 
     /**
@@ -87,11 +92,8 @@ class DBHandler
     {
         $model = serialize($model);
         $ff = serialize($ff);
-        $query = self::$db->prepare("INSERT INTO {$this->trainingDataTableName} (model,features) VALUES (:model,:features)");
-        return $query->execute([
-            ":model" => $model,
-            ":features" => $ff
-        ]);
+        file_put_contents("/Users/smddzcy/Desktop/www/ComodoHackathon/training_db/model", $model);
+        file_put_contents("/Users/smddzcy/Desktop/www/ComodoHackathon/training_db/features", $ff);
     }
 
 

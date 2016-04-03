@@ -32,7 +32,7 @@ class MailTrainer
             if (array_search($type, Config::MAIL_TYPES) === false) throw new Exception($type . " mail type doesn't exist.");
             $this->trainingSet->addDocument(
                 $type,
-                new TokensDocument(StringOperator::tokenize($el->getSubject() . " " . $el->getContent()))
+                new TokensDocument(StringOperator::tokenize(StringOperator::clearText($el->getSubject() . " " . $el->getContent())))
             );
         }
         $this->model->train($this->ff, $this->trainingSet);

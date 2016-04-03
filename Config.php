@@ -8,7 +8,17 @@ final class Config
      * Mail types for clustering in Bayesian algorithm
      */
     const MAIL_TYPES = [
-        "SPAM", "PROMOTION", "SOCIAL", "FRIENDS/FAMILY"
+        "SPAM", "PROMOTION", "SOCIAL", "PERSONAL"
+    ];
+
+    /**
+     * Whitelisted social domains for simple hard-coded clustering
+     */
+    const SOCIAL_DOMAINS = [
+        "FACEBOOK", "TWITTER", "INSTAGRAM", "YOUTUBE", "PINTEREST", "MAIL.LINKEDIN", "LINKEDIN",
+        "FOURSQUARE", "PLUS.GOOGLE", "XING", "DISQUS", "SNAPCHAT", "TUMBLR", "TWOO", "VINE", "MEETUP",
+        "VK", "MYSPACE", "BEBO", "FRIENDSTER", "HABBO", "HI5", "BADOO", "ORKUT", "FLICKR", "TAGGED", "ASK",
+        "MEETME", "CLASSMATES"
     ];
 
     const DB_TYPE = "mysql";
@@ -21,6 +31,8 @@ final class Config
     const DB_NAME = "comodo";
     const DB_MAILS_TABLENAME = "mails";
     const DB_TRAININGDATA_TABLENAME = "training_data";
+
+    const DAY = 60 * 60 * 24;
 
     public static function load($className)
     {

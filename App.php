@@ -1,22 +1,49 @@
 <?php
 
 require_once "Config.php";
-
+/*
 $trainer = new MailTrainer();
-$trainingData = [
-    new Mail(["content" => "Go until jurong point, crazy.. Available only in bugis n great world la e buffet... Cine there got amore wat...",], "FRIENDS/FAMILY"),
-    new Mail(["content" => 'Fine if that\'s the way u feel. That\'s the way its gota b'], "FRIENDS/FAMILY"),
-    new Mail(["content" => "England v Macedonia - dont miss the goals/team news. Txt ur national team to 87077 eg ENGLAND to 87077 Try:WALES, SCOTLAND 4txt/ú1.20 POBOXox36504W45WQ 16+"], "SPAM")
-];
-$trainer->train($trainingData);
-$classifier = new MailClassifier();
+$directory = "/Users/smddzcy/Downloads/Datasets/2016/";
+foreach (array_diff(scandir($directory), array('..', '.')) as $dir) {
+    foreach (array_diff(scandir($directory . $dir . "/"), array('..', '.')) as $file) {
+        $file = $directory . $dir . "/" . $file;
+        $content = file_get_contents($file);
+        @unlink($file);
+        preg_match("#Content\-Type\:.*?text/plain(.*?)--[0-9]{3}#si", $content, $msg);
+        if (!array_key_exists(1, $msg)) continue;
+        $msg = trim($msg[1]);
+        $trainingData = [new Mail(["content" => $msg], "SPAM")];
+        $trainer->train($trainingData);
+    }
+}
+*/
 
+$data = ["Natural Hair Regrowth Tablets!
+ 
+Thousands purchased around the world every day.
+ 
+Available in almost all countries "];
+$type = "SPAM";
+if (count($data) > 0) {
+    $trainer = new MailTrainer();
+    $trainingData = [];
+    foreach ($data as $d) {
+        $trainingData[] = new Mail(["content" => $d], $type);
+    }
+    $trainer->train($trainingData);
+}
+
+
+$classifier = new MailClassifier();
 $mails = $classifier->classifyMulti([
-    new Mail(["content" => 'I\'ve been searching for the right words to thank you for this breather. I promise i wont take your help for granted and will fulfil my promise. You have been wonderful and a blessing at all times.']),
-    new Mail(["content" => 'I HAVE A DATE ON SUNDAY WITH WILL!!']),
-    new Mail(["content" => 'XXXMobileMovieClub: To use your credit, click the WAP link in the next txt message or click here>> http://wap. xxxmobilemovieclub.com?n=QJKGIGHJJGCBL']),
-    new Mail(["content" => "Go until jurong point, crazy.. Available only in bugis n great world la e buffet... Cine there got amore wat...",]),
+    new Mail(["content" => '
+Natural Hair Regrowth Tablets!
+ 
+Thousands purchased around the world every day.
+ 
+Available in almost all countries '])
 ]);
 
 var_dump($mails);
-// Yay %50 success rate !!!!
+
+// Yay %100 success rate !!!!

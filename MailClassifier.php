@@ -28,6 +28,24 @@ class MailClassifier
      */
     public function classifySingle(Mail $mail)
     {
+        
+        // It's a spam if it's sent from future, or earlier than a week (a week is considered as a maximum mail refresh rate for a system)
+        if (!is_null($mail->getDate()) &&
+            (($diff = strtotime($mail->getDate()) - strtotime('now')) > 0 || $diff < -Config::DAY * 7)
+        ) {
+            return "SPAM";
+        }
+
+        // Hard-coded clustering for mails from white-listed social sites
+        if (!is_null($mail->getFrom())) {
+            $domain = strrchr($mail->getFrom(), "@");
+            if ($domain !== false) {
+                $domain = substr($domain, 1);
+                $domain = strtoupper(substr($domain, 0, strripos($domain, ".")));
+                if (array_search($domain, Config::SOCIAL_DOMAINS) !== false && array_search("SOCIAL", Config::MAIL_TYPES) !== false) return "SOCIAL";
+            }
+        }
+
         return $this->classifier->classify(
             Config::MAIL_TYPES,
             new TokensDocument(StringOperator::tokenize($mail->getSubject() . " " . $mail->getContent()))
