@@ -26,8 +26,8 @@ final class Config
     const DB_PORT = 3306;
     const DB_CHARSET = "utf8";
 
-    const DB_USER = "root";
-    const DB_PASS = "1233211";
+    const DB_USER = "wow";
+    const DB_PASS = "wow";
     const DB_NAME = "comodo";
     const DB_MAILS_TABLENAME = "mails";
     const DB_TRAININGDATA_TABLENAME = "training_data";
